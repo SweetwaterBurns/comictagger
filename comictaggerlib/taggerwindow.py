@@ -545,7 +545,7 @@ class TaggerWindow(QtWidgets.QMainWindow):
 
     def aboutApp(self):
 
-        website = "https://github.com/davide-romanini/comictagger"
+        website = "https://github.com/comictagger/comictagger"
         email = "comictagger@gmail.com"
         license_link = "http://www.apache.org/licenses/LICENSE-2.0"
         license_name = "Apache License 2.0"
@@ -582,35 +582,8 @@ class TaggerWindow(QtWidgets.QMainWindow):
             if self.droppedFiles is not None:
                 event.accept()
 
-    # http://stackoverflow.com/questions/34689562/pyqt-mimedata-filename
     def getUrlFromLocalFileID(self, localFileID):
-        import sys
-        if not sys.platform == 'darwin':
-            return localFileID.toLocalFile()
-
-        import objc
-        import CoreFoundation as CF
-        localFileQString = QString(localFileID.toLocalFile())
-        relCFStringRef = CF.CFStringCreateWithCString(
-            CF.kCFAllocatorDefault,
-            localFileQString.toUtf8(),
-            CF.kCFStringEncodingUTF8
-            )
-        relCFURL = CF.CFURLCreateWithFileSystemPath(
-            CF.kCFAllocatorDefault,
-            relCFStringRef,
-            CF.kCFURLPOSIXPathStyle,
-            False  # is directory
-            )
-        absCFURL = CF.CFURLCreateFilePathURL(
-            CF.kCFAllocatorDefault,
-            relCFURL,
-            objc.NULL
-            )
-
-        local = QUrl(str(absCFURL[0])).toLocalFile()
-        
-        return local
+            return localFileID.toLocalFile()        
 
     def dropEvent(self, event):
         # if self.dirtyFlagVerification("Open Archive",
@@ -1011,13 +984,9 @@ class TaggerWindow(QtWidgets.QMainWindow):
 
         if self.settings.last_opened_folder is not None:
             dialog.setDirectory(self.settings.last_opened_folder)
-        # dialog.setFileMode(QtWidgets.QFileDialog.Directory)
 
         if not folder_mode:
-            if platform.system() != "Windows" and utils.which("unrar") is None:
-                archive_filter = "Comic archive files (*.cbz *.zip)"
-            else:
-                archive_filter = "Comic archive files (*.cbz *.zip *.cbr *.rar)"
+            archive_filter = "Comic archive files (*.cbz *.zip *.cbr *.rar)"
             filters = [
                 archive_filter,
                 "Any files (*)"
@@ -2049,10 +2018,10 @@ class TaggerWindow(QtWidgets.QMainWindow):
             dlg.exec_()
 
     def showWiki(self):
-        webbrowser.open("https://github.com/davide-romanini/comictagger/wiki")
+        webbrowser.open("https://github.com/comictagger/comictagger/wiki")
 
     def reportBug(self):
-        webbrowser.open("https://github.com/davide-romanini/comictagger/issues")
+        webbrowser.open("https://github.com/comictagger/comictagger/issues")
 
     def showForum(self):
         webbrowser.open("http://comictagger.forumotion.com/")
@@ -2134,7 +2103,7 @@ class TaggerWindow(QtWidgets.QMainWindow):
     def versionCheckComplete(self, new_version):
         if (new_version != self.version and
                 new_version != self.settings.dont_notify_about_this_version):
-            website = "http://code.google.com/p/comictagger"
+            website = "https://github.com/comictagger/comictagger"
             checked = OptionalMessageDialog.msg(
                 self,
                 "New version available!",

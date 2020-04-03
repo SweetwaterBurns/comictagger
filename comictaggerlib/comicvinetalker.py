@@ -105,7 +105,7 @@ class ComicVineTalker(QObject):
         self.log_func = None
 
         # always use a tls context for urlopen
-        self.ssl = ssl.SSLContext(ssl.PROTOCOL_TLSv1)
+        self.ssl = ssl.SSLContext(ssl.PROTOCOL_TLS)
 
     def setLogFunc(self, log_func):
         self.log_func = log_func
@@ -235,7 +235,7 @@ class ComicVineTalker(QObject):
 
         search_url = self.api_base_url + "/search/?api_key=" + self.api_key + "&format=json&resources=volume&query=" + \
             query_string + \
-            "&field_list=name,id,start_year,publisher,image,description,count_of_issues"
+            "&field_list=name,id,start_year,publisher,image,description,count_of_issues&limit=100"
         cv_response = self.getCVContent(search_url + "&page=1")
 
         search_results = list()
